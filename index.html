@@ -64,8 +64,13 @@
     };
 
     function abrirTela(id) {
-      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+      if (id === 'tela-pedidos') {
+        document.getElementById('tela-login').style.setProperty('display', 'none', 'important');
+        document.getElementById('tela-pedidos').style.setProperty('display', 'block', 'important');
+      } else {
+        document.getElementById('tela-pedidos').style.setProperty('display', 'none', 'important');
+        document.getElementById('tela-login').style.setProperty('display', 'flex', 'important');
+      }
     }
 
     async function fazerLogin(e) {
