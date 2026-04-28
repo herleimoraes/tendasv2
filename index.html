@@ -79,17 +79,22 @@
 
       try {
         const res = await fetch(`${URL_API}?action=login&usuario=${usr}&senha=${pwd}`);
-        const data = await res.json();
-
-        if(data.success) {
-          localStorage.setItem('app_auth', 'true');
-          abrirTela('tela-pedidos');
-          carregarPedidos();
-        } else {
-          alert('Usuário ou senha incorretos!');
+        const text = await res.text(); // Pega a resposta pura para debugar
+        
+        try {
+          const data = JSON.parse(text);
+          if(data.success) {
+            localStorage.setItem('app_auth', 'true');
+            abrirTela('tela-pedidos');
+            carregarPedidos();
+          } else {
+            alert('Usuário ou senha incorretos!');
+          }
+        } catch(e) {
+          alert("O servidor não retornou JSON. Retornou: " + text.substring(0, 50));
         }
       } catch (err) {
-        alert('Erro de conexão.');
+        alert('Erro de conexão: ' + err.message);
       }
       btn.disabled = false;
       btn.innerHTML = 'Entrar';
